@@ -1,0 +1,58 @@
+CREATE TABLE if not exists journal
+(
+    id integer primary key not null,
+    student_id integer not null,
+    study_plan_id integer not null,
+    in_time bit not null,
+    count integer not null,
+    mark_id integer not null
+);
+
+CREATE TABLE if not exists mark
+(
+    id integer primary key not null,
+    name text not null,
+    value text not null
+);
+
+CREATE TABLE if not exists student
+(
+    id            integer primary key not null,
+    surname    text             not null,
+    name text             not null,
+    second_name       text                 not null,
+    study_group_id integer not null
+);
+
+CREATE TABLE if not exists study_plan
+(
+    id            integer primary key not null,
+    subject_id    integer             not null,
+    exam_type_id integer             not null
+);
+
+CREATE TABLE if not exists exam_type
+(
+    id   integer primary key not null,
+    type text                not null
+);
+
+CREATE TABLE if not exists study_group
+(
+    id            integer primary key not null,
+    name text             not null
+);
+
+CREATE TABLE if not exists subject
+(
+    id            integer primary key not null,
+    name text             not null,
+    short_name       text                 not null
+);
+
+alter table subject add foreign key (id) references study_plan (subject_id);
+alter table study_group add foreign key (id) references student (study_group_id);
+alter table exam_type add foreign key (id) references study_plan (exam_type_id);
+alter table student add foreign key (id) references journal (student_id);
+alter table study_plan add foreign key (id) references journal (study_plan_id);
+alter table mark add foreign key (id) references journal (mark_id)
